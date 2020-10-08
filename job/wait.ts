@@ -2,6 +2,9 @@ import * as chalk from 'chalk'
 import { Iot } from 'aws-sdk'
 import { progress, success, warn } from '../runner/log'
 
+export const defaultTimeout = 300
+export const defaultInterval = 30
+
 export const wait = async ({
 	iot,
 	timeout,
@@ -9,12 +12,12 @@ export const wait = async ({
 	jobId,
 }: {
 	iot: Iot
-	timeout: number
-	interval: number
+	timeout?: number
+	interval?: number
 	jobId: string
 }): Promise<void> =>
 	new Promise((resolve, reject) => {
-		const t = setTimeout(() => reject(), timeout * 1000)
+		const t = setTimeout(() => reject(), (timeout ?? defaultTimeout) * 1000)
 		let i: NodeJS.Timeout | undefined = undefined
 		const checkJob = async () => {
 			const { job } = await iot
@@ -47,5 +50,5 @@ export const wait = async ({
 			}
 		}
 		void checkJob()
-		i = setInterval(checkJob, interval * 1000)
+		i = setInterval(checkJob, (interval ?? defaultInterval) * 1000)
 	})

@@ -1,10 +1,7 @@
 import { CommandDefinition } from './CommandDefinition'
 import * as chalk from 'chalk'
 import { Iot } from 'aws-sdk'
-import { wait } from '../../job/wait'
-
-const defaultTimeout = 300
-const defaultInterval = 30
+import { defaultInterval, defaultTimeout, wait } from '../../job/wait'
 
 export const waitForJobCommand = ({
 	region,
@@ -31,8 +28,8 @@ export const waitForJobCommand = ({
 
 		await wait({
 			iot,
-			interval: interval ?? defaultInterval,
-			timeout: timeout ?? defaultTimeout,
+			interval,
+			timeout,
 			jobId,
 		})
 	},
