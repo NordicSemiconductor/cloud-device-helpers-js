@@ -17,7 +17,11 @@ export const wait = async ({
 	jobId: string
 }): Promise<void> =>
 	new Promise((resolve, reject) => {
-		const t = setTimeout(() => reject(), (timeout ?? defaultTimeout) * 1000)
+		const t = setTimeout(
+			() =>
+				reject(new Error(`Timed out waiting for job ${jobId} to complete.`)),
+			(timeout ?? defaultTimeout) * 1000,
+		)
 		let i: NodeJS.Timeout | undefined = undefined
 		const checkJob = async () => {
 			try {
@@ -39,7 +43,7 @@ export const wait = async ({
 						warn(
 							`${job.jobProcessDetails?.numberOfFailedThings} failed executions.`,
 						)
-						return reject(`Job ${jobId} failed!`)
+						return reject(new Error(`Job ${jobId} failed!`))
 					}
 					success(
 						`${job.jobProcessDetails?.numberOfFailedThings} failed executions.`,
