@@ -20,8 +20,10 @@ export const schedule = async ({
 	region,
 	ciDeviceArn,
 	jobId,
+	iot,
 }: {
 	s3: S3
+	iot: Iot
 	firmwareUrl: string
 	certificateJSON: string
 	target: string
@@ -61,9 +63,6 @@ export const schedule = async ({
 
 	console.log(jobDocument)
 
-	const iot = new Iot({
-		region,
-	})
 	await iot
 		.createJob({
 			jobId,

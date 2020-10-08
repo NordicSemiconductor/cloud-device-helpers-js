@@ -1,5 +1,5 @@
 import { CommandDefinition } from './CommandDefinition'
-import { S3 } from 'aws-sdk'
+import { S3, Iot } from 'aws-sdk'
 import { schedule } from '../../job/schedule'
 
 const defaultTarget = 'thingy91_nrf9160ns'
@@ -36,6 +36,9 @@ export const scheduleJobCommand = ({
 			region,
 			ciDeviceArn,
 			s3: new S3({
+				region,
+			}),
+			iot: new Iot({
 				region,
 			}),
 			certificateJSON,
