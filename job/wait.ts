@@ -20,33 +20,42 @@ export const wait = async ({
 		const t = setTimeout(() => reject(), (timeout ?? defaultTimeout) * 1000)
 		let i: NodeJS.Timeout | undefined = undefined
 		const checkJob = async () => {
-			const { job } = await iot
-				.describeJob({
-					jobId,
-				})
-				.promise()
-
-			if (job === undefined) {
-				clearTimeout(t)
-				if (i !== undefined) clearInterval(i)
-				return reject(`Job ${jobId} not found.`)
-			}
-			if (job.status === 'COMPLETED') {
-				progress(job.status)
-				clearTimeout(t)
-				if (i !== undefined) clearInterval(i)
-				if ((job.jobProcessDetails?.numberOfFailedThings ?? 0) > 0) {
-					warn(
+			try {
+				const { job } = await iot
+					.describeJob({
+						jobId,
+					})
+					.promise()
+				if (job === undefined) {
+					clearTimeout(t)
+					if (i !== undefined) clearInterval(i)
+					return reject(`Job ${jobId} not found.`)
+				}
+				if (job.status === 'COMPLETED') {
+					progress(job.status)
+					clearTimeout(t)
+					if (i !== undefined) clearInterval(i)
+					if ((job.jobProcessDetails?.numberOfFailedThings ?? 0) > 0) {
+						warn(
+							`${job.jobProcessDetails?.numberOfFailedThings} failed executions.`,
+						)
+						return reject(`Job ${jobId} failed!`)
+					}
+					success(
 						`${job.jobProcessDetails?.numberOfFailedThings} failed executions.`,
 					)
-					return reject(`Job ${jobId} failed!`)
+					return resolve()
+				} else {
+					progress(
+						chalk.yellow(job.status),
+						chalk.blueBright(
+							job.jobProcessDetails?.numberOfInProgressThings ?? 0,
+						),
+						chalk.yellow('things have started the job'),
+					)
 				}
-				success(
-					`${job.jobProcessDetails?.numberOfFailedThings} failed executions.`,
-				)
-				return resolve()
-			} else {
-				progress(chalk.yellow(job.status))
+			} catch (err) {
+				warn(chalk.red(err.message))
 			}
 		}
 		void checkJob()
