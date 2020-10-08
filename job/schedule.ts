@@ -19,6 +19,7 @@ export const schedule = async ({
 	bucketName,
 	region,
 	ciDeviceArn,
+	jobId,
 }: {
 	s3: S3
 	firmwareUrl: string
@@ -29,8 +30,9 @@ export const schedule = async ({
 	bucketName: string
 	region: string
 	ciDeviceArn: string
+	jobId?: string
 }): Promise<FirmwareCIJobDocument> => {
-	const jobId = v4()
+	jobId = jobId ?? v4()
 	console.log('')
 	console.log(chalk.gray('  Job ID:    '), chalk.yellow(jobId))
 	const { url, fields } = s3.createPresignedPost({
