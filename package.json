@@ -1,9 +1,8 @@
 {
   "name": "@bifravst/firmware-ci",
   "version": "0.0.0-development",
-  "description": "Exposes real nRF9160 hardware to be used for end-to-end tests",
+  "description": "Helper functions for interacting with the nRF9160 used during end-to-end tests",
   "main": "./dist/export.js",
-  "bin": "./cli/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node --unhandled-rejections=strict dist/runner/runner.js"
@@ -27,8 +26,6 @@
   "homepage": "https://github.com/bifravst/firmware-ci#readme",
   "dependencies": {
     "@serialport/parser-readline": "9.0.1",
-    "aws-iot-device-sdk": "2.2.6",
-    "aws-sdk": "2.810.0",
     "commander": "6.2.1",
     "form-data": "3.0.0",
     "node-fetch": "2.6.1",
@@ -40,7 +37,6 @@
     "@bifravst/eslint-config-typescript": "5.0.82",
     "@commitlint/cli": "11.0.0",
     "@commitlint/config-angular": "11.0.0",
-    "@types/aws-iot-device-sdk": "2.2.2",
     "@types/chalk": "2.2.0",
     "@types/commander": "2.12.2",
     "@types/node": "14.14.13",

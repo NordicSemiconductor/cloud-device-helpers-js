@@ -1,4 +1,4 @@
-# Firmware CI runner
+# Firmware CI runner device helpers
 
 [![GitHub Actions](https://github.com/bifravst/firmware-ci/workflows/Test%20and%20Release/badge.svg)](https://github.com/bifravst/firmware-ci/actions)
 [![Known Vulnerabilities](https://snyk.io/test/github/bifravst/firmware-ci/badge.svg)](https://snyk.io/test/github/bifravst/firmware-ci)
@@ -9,4 +9,12 @@
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier/)
 [![ESLint: TypeScript](https://img.shields.io/badge/ESLint-TypeScript-blue.svg)](https://github.com/typescript-eslint/typescript-eslint)
 
-Read the documentation at https://bifravst.github.io/.
+Contains helper functions for interacting with the nRF9160 used during
+end-to-end tests:
+
+[`connect`](./device/connect.ts) opens a serial connection to a device and
+flashes the AT client, so cloud credentials can be provisioned using  
+[`flashCredentials`](./device/flashCredentials.ts).
+
+This is used by the [AWS](https://github.com/bifravst/firmware-ci-aws) and
+[Azure](https://github.com/bifravst/firmware-ci-azure) Firmware CI runners.
