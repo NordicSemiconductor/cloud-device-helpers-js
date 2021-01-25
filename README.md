@@ -16,5 +16,6 @@ end-to-end tests:
 flashes the AT client, so cloud credentials can be provisioned using  
 [`flashCredentials`](./device/flashCredentials.ts).
 
-This is used by the [AWS](https://github.com/bifravst/firmware-ci-aws) and
-[Azure](https://github.com/bifravst/firmware-ci-azure) Firmware CI runners.
+This is used by the [AWS](https://github.com/bifravst/firmware-ci-runner-aws)
+and [Azure](https://github.com/bifravst/firmware-ci-runner-azure) Firmware CI
+runners.
