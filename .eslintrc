@@ -1,5 +1,5 @@
 {
-  "extends": "@bifravst/eslint-config-typescript",
+  "extends": "@nordicsemiconductor/eslint-config-asset-tracker-cloud-typescript",
   "rules": {
     "@typescript-eslint/ban-ts-comment": "off"
   }
