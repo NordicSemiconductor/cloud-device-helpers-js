@@ -1,4 +1,4 @@
-# Firmware CI runner device helpers
+# Firmware CI runner device helpers [![npm version](https://img.shields.io/npm/v/@nordicsemiconductor/firmware-ci-device-helpers.svg)](https://www.npmjs.com/package/@nordicsemiconductor/firmware-ci-device-helpers)
 
 [![GitHub Actions](https://github.com/NordicSemiconductor/cloud-firmware-ci-device-helpers-js/workflows/Test%20and%20Release/badge.svg)](https://github.com/NordicSemiconductor/cloud-firmware-ci-device-helpers-js/actions)
 [![Known Vulnerabilities](https://snyk.io/test/github/NordicSemiconductor/cloud-firmware-ci-device-helpers-js/badge.svg?targetFile=package.json)](https://snyk.io/test/github/NordicSemiconductor/cloud-firmware-ci-device-helpers-js?targetFile=package.json)
@@ -24,3 +24,7 @@ Firmware CI runners.
 
 > :information_source:
 > [Read the complete Asset Tracker Cloud Example documentation](https://nordicsemiconductor.github.io/asset-tracker-cloud-docs/).
+
+## Installation
+
+    npm i --save @nordicsemiconductor/firmware-ci-device-helpers
