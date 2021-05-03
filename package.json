@@ -39,7 +39,7 @@
     "@commitlint/config-angular": "12.1.1",
     "@nordicsemiconductor/asset-tracker-cloud-code-style": "9.0.2",
     "@nordicsemiconductor/eslint-config-asset-tracker-cloud-typescript": "7.0.18",
-    "@types/node": "14.14.43",
+    "@types/node": "15.0.1",
     "@types/node-fetch": "2.5.10",
     "@types/serialport": "8.0.1",
     "@types/uuid": "8.3.0",
