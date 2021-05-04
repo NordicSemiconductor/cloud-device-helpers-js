@@ -3,6 +3,8 @@ import * as Readline from '@serialport/parser-readline'
 import { atCMD } from './atCMD'
 import { flash } from './flash'
 
+const defaultInactivityTimeoutInSeconds = 60
+
 export type Connection = {
 	end: () => Promise<void>
 	at: (cmd: string) => Promise<string[]>
@@ -23,6 +25,7 @@ export const connect = async ({
 	warn,
 	onEnd,
 	port,
+	inactivityTimeoutInSeconds,
 }: {
 	device: string
 	atHostHexfile: string
@@ -32,6 +35,7 @@ export const connect = async ({
 	warn?: (...args: string[]) => void
 	onEnd?: (port: SerialPort) => Promise<void>
 	port?: SerialPort
+	inactivityTimeoutInSeconds?: number
 }): Promise<{
 	connection: Connection
 	deviceLog: string[]
@@ -39,7 +43,10 @@ export const connect = async ({
 }> =>
 	new Promise((resolve) => {
 		const deviceLog: string[] = []
+		const timeoutSeconds =
+			inactivityTimeoutInSeconds ?? defaultInactivityTimeoutInSeconds
 		progress?.(`Connecting to`, device)
+		progress?.(`Inactivity timeout`, `${timeoutSeconds} seconds`)
 		const portInstance =
 			port ??
 			new SerialPort(device, {
@@ -64,6 +71,7 @@ export const connect = async ({
 				progress?.(device, ...args)
 			},
 		})
+		let inactivityTimer: NodeJS.Timeout
 		const end = async () => {
 			await onEnd?.(portInstance)
 			if (!portInstance.isOpen) {
@@ -75,6 +83,11 @@ export const connect = async ({
 			progress?.(device, 'port closed')
 		}
 
+		const onInactive = () => {
+			warn?.(device, `No data received after ${timeoutSeconds} seconds`)
+			void end()
+		}
+
 		portInstance.on('open', async () => {
 			progress?.(device, `connected`)
 			void flash({
@@ -82,6 +95,7 @@ export const connect = async ({
 				debug: (...args: any[]) => debug?.('AT Host', ...args),
 				warn: (...args: any[]) => warn?.('AT Host', ...args),
 			})
+			inactivityTimer = setTimeout(onInactive, timeoutSeconds * 1000)
 		})
 		const listeners: ((s: string) => void)[] = []
 		parser.on('data', async (data: string) => {
@@ -100,6 +114,8 @@ export const connect = async ({
 					},
 				})
 			}
+			clearTimeout(inactivityTimer)
+			inactivityTimer = setTimeout(onInactive, timeoutSeconds * 1000)
 		})
 		portInstance.on('close', () => {
 			progress?.(device, 'port closed')
