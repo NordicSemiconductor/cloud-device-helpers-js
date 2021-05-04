@@ -22,6 +22,7 @@ export const connect = async ({
 	debug,
 	warn,
 	onEnd,
+	port,
 }: {
 	device: string
 	atHostHexfile: string
@@ -30,6 +31,7 @@ export const connect = async ({
 	debug?: (...args: string[]) => void
 	warn?: (...args: string[]) => void
 	onEnd?: (port: SerialPort) => Promise<void>
+	port?: SerialPort
 }): Promise<{
 	connection: Connection
 	deviceLog: string[]
@@ -38,11 +40,23 @@ export const connect = async ({
 	new Promise((resolve) => {
 		const deviceLog: string[] = []
 		progress?.(`Connecting to`, device)
-		const port = new SerialPort(device, { baudRate: 115200, lock: false })
-		const parser = port.pipe(new Readline({ delimiter: delimiter ?? '\r\n' }))
+		const portInstance =
+			port ??
+			new SerialPort(device, {
+				baudRate: 115200,
+				autoOpen: true,
+				dataBits: 8,
+				lock: true,
+				stopBits: 1,
+				parity: 'none',
+				rtscts: false,
+			})
+		const parser = portInstance.pipe(
+			new Readline({ delimiter: delimiter ?? '\r\n' }),
+		)
 		const at = atCMD({
 			device,
-			port,
+			port: portInstance,
 			parser,
 			delimiter: delimiter ?? '\r\n',
 			progress: (...args) => {
@@ -51,17 +65,17 @@ export const connect = async ({
 			},
 		})
 		const end = async () => {
-			await onEnd?.(port)
-			if (!port.isOpen) {
+			await onEnd?.(portInstance)
+			if (!portInstance.isOpen) {
 				warn?.(device, 'port is not open')
 				return
 			}
 			progress?.(device, 'closing port')
-			port.close()
+			portInstance.close()
 			progress?.(device, 'port closed')
 		}
 
-		port.on('open', async () => {
+		portInstance.on('open', async () => {
 			progress?.(device, `connected`)
 			void flash({
 				hexfile: atHostHexfile,
@@ -87,10 +101,10 @@ export const connect = async ({
 				})
 			}
 		})
-		port.on('close', () => {
+		portInstance.on('close', () => {
 			progress?.(device, 'port closed')
 		})
-		port.on('error', (err) => {
+		portInstance.on('error', (err) => {
 			warn?.(device, err.message)
 			void end()
 		})
