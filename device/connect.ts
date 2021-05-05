@@ -40,7 +40,7 @@ export const connect = async ({
 	onData: (fn: (s: string) => void) => void
 	onEnd: (fn: (port: SerialPort, timeout: boolean) => void) => void
 }> =>
-	new Promise((resolve) => {
+	new Promise((resolve, reject) => {
 		const deviceLog: string[] = []
 		const timeoutSeconds =
 			inactivityTimeoutInSeconds ?? defaultInactivityTimeoutInSeconds
@@ -125,6 +125,6 @@ export const connect = async ({
 		})
 		portInstance.on('error', (err) => {
 			warn?.(device, err.message)
-			void end(false)
+			reject(err)
 		})
 	})
