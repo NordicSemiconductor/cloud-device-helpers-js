@@ -33,7 +33,7 @@ export const connect = async ({
 	progress?: (...args: string[]) => void
 	debug?: (...args: string[]) => void
 	warn?: (...args: string[]) => void
-	onEnd?: (port: SerialPort) => Promise<void>
+	onEnd?: (port: SerialPort, timeout: boolean) => Promise<void>
 	port?: SerialPort
 	inactivityTimeoutInSeconds?: number
 }): Promise<{
@@ -72,8 +72,8 @@ export const connect = async ({
 			},
 		})
 		let inactivityTimer: NodeJS.Timeout
-		const end = async () => {
-			await onEnd?.(portInstance)
+		const end = async (timeout: boolean) => {
+			await onEnd?.(portInstance, timeout)
 			if (!portInstance.isOpen) {
 				warn?.(device, 'port is not open')
 				return
@@ -85,7 +85,7 @@ export const connect = async ({
 
 		const onInactive = () => {
 			warn?.(device, `No data received after ${timeoutSeconds} seconds`)
-			void end()
+			void end(true)
 		}
 
 		portInstance.on('open', async () => {
@@ -106,7 +106,7 @@ export const connect = async ({
 				resolve({
 					connection: {
 						at,
-						end,
+						end: async () => end(false),
 					},
 					deviceLog,
 					onData: (fn) => {
@@ -122,6 +122,6 @@ export const connect = async ({
 		})
 		portInstance.on('error', (err) => {
 			warn?.(device, err.message)
-			void end()
+			void end(false)
 		})
 	})
