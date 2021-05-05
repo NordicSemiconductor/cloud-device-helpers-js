@@ -3,7 +3,7 @@ import * as Readline from '@serialport/parser-readline'
 import { atCMD } from './atCMD'
 import { flash } from './flash'
 
-const defaultInactivityTimeoutInSeconds = 60
+const defaultInactivityTimeoutInSeconds = 300
 
 export type Connection = {
 	end: () => Promise<void>
