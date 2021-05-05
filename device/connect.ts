@@ -23,7 +23,6 @@ export const connect = async ({
 	progress,
 	debug,
 	warn,
-	onEnd,
 	port,
 	inactivityTimeoutInSeconds,
 }: {
@@ -33,13 +32,13 @@ export const connect = async ({
 	progress?: (...args: string[]) => void
 	debug?: (...args: string[]) => void
 	warn?: (...args: string[]) => void
-	onEnd?: (port: SerialPort, timeout: boolean) => Promise<void>
 	port?: SerialPort
 	inactivityTimeoutInSeconds?: number
 }): Promise<{
 	connection: Connection
 	deviceLog: string[]
 	onData: (fn: (s: string) => void) => void
+	onEnd: (fn: (port: SerialPort, timeout: boolean) => void) => void
 }> =>
 	new Promise((resolve) => {
 		const deviceLog: string[] = []
@@ -47,6 +46,7 @@ export const connect = async ({
 			inactivityTimeoutInSeconds ?? defaultInactivityTimeoutInSeconds
 		progress?.(`Connecting to`, device)
 		progress?.(`Inactivity timeout`, `${timeoutSeconds} seconds`)
+		let onEnd: (port: SerialPort, timeout: boolean) => void
 		const portInstance =
 			port ??
 			new SerialPort(device, {
@@ -73,7 +73,7 @@ export const connect = async ({
 		})
 		let inactivityTimer: NodeJS.Timeout
 		const end = async (timeout: boolean) => {
-			await onEnd?.(portInstance, timeout)
+			onEnd?.(portInstance, timeout)
 			if (!portInstance.isOpen) {
 				warn?.(device, 'port is not open')
 				return
@@ -111,6 +111,9 @@ export const connect = async ({
 					deviceLog,
 					onData: (fn) => {
 						listeners.push(fn)
+					},
+					onEnd: (fn) => {
+						onEnd = fn
 					},
 				})
 			}
