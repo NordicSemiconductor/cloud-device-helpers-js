@@ -72,7 +72,9 @@ export const connect = async ({
 			},
 		})
 		let inactivityTimer: NodeJS.Timeout
+		let ended = false
 		const end = async (timeout: boolean) => {
+			ended = true
 			onEnd?.(portInstance, timeout)
 			if (!portInstance.isOpen) {
 				warn?.(device, 'port is not open')
@@ -121,7 +123,12 @@ export const connect = async ({
 			inactivityTimer = setTimeout(onInactive, timeoutSeconds * 1000)
 		})
 		portInstance.on('close', () => {
-			progress?.(device, 'port closed')
+			if (ended) {
+				progress?.(device, 'port closed')
+			} else {
+				warn?.(device, 'port closed unexpectedly')
+				onEnd?.(portInstance, false)
+			}
 		})
 		portInstance.on('error', (err) => {
 			warn?.(device, err.message)
