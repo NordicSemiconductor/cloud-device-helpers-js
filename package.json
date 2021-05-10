@@ -4,7 +4,7 @@
   "description": "Helper functions for interacting with the nRF9160 used during end-to-end tests",
   "main": "./dist/export.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "start": "node --unhandled-rejections=strict dist/runner/runner.js",
     "postinstall": "husky install",
     "prepublishOnly": "pinst --disable",
@@ -32,6 +32,7 @@
     "form-data": "4.0.0",
     "node-fetch": "2.6.1",
     "serialport": "9.0.7",
+    "shell-quote": "*",
     "uuid": "8.3.2"
   },
   "devDependencies": {
@@ -39,16 +40,20 @@
     "@commitlint/config-angular": "12.1.1",
     "@nordicsemiconductor/asset-tracker-cloud-code-style": "9.0.2",
     "@nordicsemiconductor/eslint-config-asset-tracker-cloud-typescript": "7.0.19",
+    "@types/jest": "*",
     "@types/node": "15.0.2",
     "@types/node-fetch": "2.5.10",
     "@types/serialport": "8.0.1",
+    "@types/shell-quote": "*",
     "@types/uuid": "8.3.0",
     "chalk": "4.1.1",
     "eslint": "7.26.0",
     "husky": "6.0.0",
+    "jest": "*",
     "lint-staged": "11.0.0",
     "pinst": "2.1.6",
     "prettier": "2.3.0",
+    "ts-jest": "*",
     "typescript": "4.2.4"
   },
   "lint-staged": {
@@ -84,5 +89,23 @@
     "cli/index.js",
     "LICENSE",
     "README.md"
-  ]
+  ],
+  "jest": {
+    "testURL": "http://localhost",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "json"
+    ],
+    "transform": {
+      ".+\\.tsx?$": "ts-jest"
+    },
+    "testRegex": ".+\\.spec\\.ts$",
+    "globals": {
+      "ts-jest": {
+        "diagnostics": true
+      }
+    }
+  }
 }
