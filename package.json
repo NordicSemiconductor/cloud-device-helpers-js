@@ -28,9 +28,7 @@
   "homepage": "https://github.com/NordicSemiconductor/cloud-firmware-ci-device-helpers-js#readme",
   "dependencies": {
     "@serialport/parser-readline": "9.0.7",
-    "commander": "7.2.0",
-    "form-data": "4.0.0",
-    "node-fetch": "2.6.1",
+    "chalk": "4.1.1",
     "serialport": "9.0.7",
     "shell-quote": "*",
     "uuid": "8.3.2"
@@ -42,11 +40,9 @@
     "@nordicsemiconductor/eslint-config-asset-tracker-cloud-typescript": "7.0.20",
     "@types/jest": "*",
     "@types/node": "15.0.2",
-    "@types/node-fetch": "2.5.10",
     "@types/serialport": "8.0.1",
     "@types/shell-quote": "*",
     "@types/uuid": "8.3.0",
-    "chalk": "4.1.1",
     "eslint": "7.26.0",
     "husky": "6.0.0",
     "jest": "*",
