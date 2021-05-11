@@ -1,6 +1,7 @@
 import * as chalk from 'chalk'
 
-const stringify = (a: any) => (typeof a === 'object' ? JSON.stringify(a) : a)
+const stringify = (a: any) =>
+	typeof a === 'object' ? JSON.stringify(a) : `${a}`.trim()
 
 export const warn = (...args: any[]): void =>
 	console.warn(
