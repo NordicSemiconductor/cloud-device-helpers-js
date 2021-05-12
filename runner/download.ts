@@ -1,24 +1,33 @@
-import * as path from 'path'
-import * as os from 'os'
 import { spawn } from 'child_process'
-import { progress, success, warn } from './log'
+import { LogFN } from './log'
 
 /**
  * Downloads and stores a firmware file using curl
  */
-export const download = async (jobId: string, fw: string): Promise<string> =>
+export const download = async ({
+	fw,
+	target,
+	progressLog,
+	successLog,
+	warnLog,
+}: {
+	fw: string
+	target: string
+	progressLog?: LogFN
+	successLog?: LogFN
+	warnLog?: LogFN
+}): Promise<string> =>
 	new Promise((resolve, reject) => {
-		const outfile = path.join(os.tmpdir(), `${jobId}.hex`)
-		progress(jobId, 'Downloading HEX file from', fw)
-		progress(jobId, 'Downloading HEX file to', outfile)
-		const reset = spawn('curl', ['-L', '-s', fw, '-o', outfile])
+		progressLog?.('Downloading HEX file from', fw)
+		progressLog?.('Downloading HEX file to', target)
+		const reset = spawn('curl', ['-L', '-s', fw, '-o', target])
 		reset.stdout.on('data', (data: string) => {
 			data
 				.toString()
 				.trim()
 				.split('\n')
 				.filter((s) => s.length)
-				.map((s) => progress(jobId, 'Download HEX file', s))
+				.map((s) => progressLog?.('Download HEX file', s))
 		})
 
 		reset.stderr.on('data', (data: string) => {
@@ -27,15 +36,15 @@ export const download = async (jobId: string, fw: string): Promise<string> =>
 				.trim()
 				.split('\n')
 				.filter((s) => s.length)
-				.map((s) => warn(jobId, 'Download HEX file', s))
+				.map((s) => warnLog?.('Download HEX file', s))
 		})
 
 		reset.on('exit', (code) => {
 			if (code === 0) {
-				success(jobId, 'Download HEX file', 'succeeded')
-				resolve(outfile)
+				successLog?.('Download HEX file', 'succeeded')
+				resolve(target)
 			} else {
-				warn(jobId, 'Failed to download', fw)
+				warnLog?.('Failed to download', fw)
 				reject()
 			}
 		})

@@ -1,44 +1,68 @@
 import * as chalk from 'chalk'
 
+const notEmpty = (s?: any) => s !== undefined
+
 const stringify = (a: any) =>
 	typeof a === 'object' ? JSON.stringify(a) : `${a}`.trim()
 
-export const warn = (...args: any[]): void =>
-	console.warn(
-		chalk.grey(`[${new Date().toISOString()}]`),
-		...args.map((arg) => chalk.yellow(stringify(arg))),
-	)
-export const progress = (...args: any[]): void =>
-	console.info(
-		chalk.grey(`[${new Date().toISOString()}]`),
-		...args.map((arg) => chalk.blue(stringify(arg))),
-		chalk.blue.dim('...'),
-	)
-export const success = (...args: any[]): void =>
-	console.info(
-		chalk.grey(`[${new Date().toISOString()}]`),
-		...args.map((arg) => chalk.green(stringify(arg))),
-	)
-export const debug = (...args: any[]): void =>
-	console.debug(
-		chalk.grey(`[${new Date().toISOString()}]`),
-		...args.map((arg) => chalk.magenta(stringify(arg))),
-	)
+export type LogFN = (...text: unknown[]) => void
 
-const notEmpty = (s?: any) => s !== undefined
+const logWriter =
+	(
+		colorFn: (...text: unknown[]) => string,
+		logFN: LogFN,
+		withTimestamp = false,
+	) =>
+	(...args: unknown[]): void => {
+		logFN(
+			...[
+				withTimestamp ? chalk.grey(`[${new Date().toISOString()}]`) : undefined,
+				...args.map((arg) => colorFn(stringify(arg))),
+			].filter(notEmpty),
+		)
+	}
 
-export const log = (
-	...prefixes: string[]
-): {
+export const log = ({
+	prefixes,
+	withTimestamp,
+}: {
+	prefixes: string[]
+	withTimestamp: boolean
+}): {
 	warn: (...args: any[]) => void
 	progress: (...args: any[]) => void
 	success: (...args: any[]) => void
 	debug: (...args: any[]) => void
+	error: (...args: any[]) => void
 } => ({
-	warn: (...args: any[]) => warn(...[...prefixes, ...args].filter(notEmpty)),
+	warn: (...args: any[]) =>
+		logWriter(
+			chalk.yellow,
+			console.warn,
+			withTimestamp,
+		)(...[...prefixes, ...args]),
 	progress: (...args: any[]) =>
-		progress(...[...prefixes, ...args].filter(notEmpty)),
+		logWriter(
+			chalk.blue,
+			console.info,
+			withTimestamp,
+		)(...[...prefixes, ...args]),
 	success: (...args: any[]) =>
-		success(...[...prefixes, ...args].filter(notEmpty)),
-	debug: (...args: any[]) => debug(...[...prefixes, ...args].filter(notEmpty)),
+		logWriter(
+			chalk.green,
+			console.info,
+			withTimestamp,
+		)(...[...prefixes, ...args]),
+	debug: (...args: any[]) =>
+		logWriter(
+			chalk.magenta,
+			console.debug,
+			withTimestamp,
+		)(...[...prefixes, ...args]),
+	error: (...args: any[]) =>
+		logWriter(
+			chalk.red,
+			console.error,
+			withTimestamp,
+		)(...[...prefixes, ...args]),
 })
