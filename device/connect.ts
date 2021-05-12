@@ -75,6 +75,7 @@ export const connect = async ({
 		let ended = false
 		const end = async (timeout: boolean) => {
 			ended = true
+			if (inactivityTimer !== undefined) clearTimeout(inactivityTimer)
 			onEnd?.(portInstance, timeout)
 			if (!portInstance.isOpen) {
 				warn?.(device, 'port is not open')
