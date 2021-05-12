@@ -26,9 +26,9 @@ export const log = ({
 	prefixes,
 	withTimestamp,
 }: {
-	prefixes: string[]
-	withTimestamp: boolean
-}): {
+	prefixes?: string[]
+	withTimestamp?: boolean
+} = {}): {
 	warn: (...args: any[]) => void
 	progress: (...args: any[]) => void
 	success: (...args: any[]) => void
@@ -40,29 +40,29 @@ export const log = ({
 			chalk.yellow,
 			console.warn,
 			withTimestamp,
-		)(...[...prefixes, ...args]),
+		)(...[...(prefixes ?? []), ...args]),
 	progress: (...args: any[]) =>
 		logWriter(
 			chalk.blue,
 			console.info,
 			withTimestamp,
-		)(...[...prefixes, ...args]),
+		)(...[...(prefixes ?? []), ...args]),
 	success: (...args: any[]) =>
 		logWriter(
 			chalk.green,
 			console.info,
 			withTimestamp,
-		)(...[...prefixes, ...args]),
+		)(...[...(prefixes ?? []), ...args]),
 	debug: (...args: any[]) =>
 		logWriter(
 			chalk.magenta,
 			console.debug,
 			withTimestamp,
-		)(...[...prefixes, ...args]),
+		)(...[...(prefixes ?? []), ...args]),
 	error: (...args: any[]) =>
 		logWriter(
 			chalk.red,
 			console.error,
 			withTimestamp,
-		)(...[...prefixes, ...args]),
+		)(...[...(prefixes ?? []), ...args]),
 })
