@@ -36,6 +36,7 @@ jobs:
           echo "machine github.com login accesskey password ${{ secrets.GITHUB_TOKEN }}" > ~/.netrc
           git config --global user.email "actions@example.com"
           git config --global user.name "GitHub Actions"
+          git add at_host
           git commit -m "fix(at_host): update at_host"
           git push
 
