@@ -1,0 +1,44 @@
+name: Update AT host
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 1 * * *"
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+jobs:
+  update:
+    name: Update AT host
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Fetch latest AT host
+        run: |
+          wget https://nordicsemiconductor.github.io/at_host-hex/at_host-thingy91_nrf9160ns.hex -O at_host/thingy91_at_host_increased_buf.hex
+          wget https://nordicsemiconductor.github.io/at_host-hex/at_host-nrf9160dk_nrf9160ns.hex -O at_host/91dk_at_host_increased_buf.hex
+          if [[ `git status --porcelain` ]]; then
+            echo "HAS_CHANGES=1" >> $GITHUB_ENV
+            git status
+          else
+            echo "HAS_CHANGES=0" >> $GITHUB_ENV
+            echo "No changes."
+          fi
+
+      - name: Publish release
+        if: env.HAS_CHANGES == '1'
+        run: |
+          echo "machine github.com login accesskey password ${{ secrets.GITHUB_TOKEN }}" > ~/.netrc
+          git config --global user.email "actions@example.com"
+          git config --global user.name "GitHub Actions"
+          git commit -m "fix(at_host): update at_host"
+          git push
+
+      - name: Semantic release
+        if: env.HAS_CHANGES == '1'
+        run: npx semantic-release
