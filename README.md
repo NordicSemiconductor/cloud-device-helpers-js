@@ -12,7 +12,7 @@ Contains helper functions for interacting with the nRF9160 used during
 end-to-end tests:
 
 [`connect`](./device/connect.ts) opens a serial connection to a device and
-flashes the AT client, so cloud credentials can be provisioned using  
+flashes the AT host, so cloud credentials can be provisioned using  
 [`flashCredentials`](./device/flashCredentials.ts).
 
 This is used by the

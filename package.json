@@ -81,7 +81,7 @@
   "files": [
     "package-lock.json",
     "dist",
-    "at_client",
+    "at_host",
     "cli/index.js",
     "LICENSE",
     "README.md"

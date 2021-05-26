@@ -6,14 +6,14 @@ export const atHostHexfile = {
 		path.dirname(realpathSync(__filename)),
 		'..',
 		'..',
-		'at_client',
-		'thingy91_at_client_increased_buf.hex',
+		'at_host',
+		'thingy91_at_host_increased_buf.hex',
 	),
 	'9160dk': path.join(
 		path.dirname(realpathSync(__filename)),
 		'..',
 		'..',
-		'at_client',
-		'91dk_at_client_increased_buf.hex',
+		'at_host',
+		'91dk_at_host_increased_buf.hex',
 	),
 } as const
