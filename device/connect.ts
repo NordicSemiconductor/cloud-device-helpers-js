@@ -105,7 +105,7 @@ export const connect = async ({
 			debug?.(device, data)
 			deviceLog.push(`${new Date().toISOString()}\t${data.trimEnd()}`)
 			listeners.map((l) => l(data))
-			if (data.includes('The AT host sample started')) {
+			if (data.includes('AT host sample started')) {
 				resolve({
 					connection: {
 						at,
