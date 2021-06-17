@@ -39,6 +39,8 @@ export const flash = async ({
 			'SWD',
 			'-speed',
 			'1000',
+			'-NoGui',
+			'1',
 			script,
 		])
 		const log: string[] = []
