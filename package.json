@@ -37,7 +37,7 @@
     "@commitlint/cli": "12.1.4",
     "@commitlint/config-angular": "12.1.4",
     "@nordicsemiconductor/asset-tracker-cloud-code-style": "9.0.4",
-    "@nordicsemiconductor/eslint-config-asset-tracker-cloud-typescript": "7.0.25",
+    "@nordicsemiconductor/eslint-config-asset-tracker-cloud-typescript": "7.0.26",
     "@types/jest": "*",
     "@types/node": "15.3.1",
     "@types/serialport": "8.0.1",
