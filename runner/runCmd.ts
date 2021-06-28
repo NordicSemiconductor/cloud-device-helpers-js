@@ -46,9 +46,9 @@ export const runCmd = async ({
 			}
 			if (code === 0) {
 				successLog?.('Succeeded.')
-				return resolve(data.join('\n'))
+				return resolve(data.join('\n').trim())
 			}
 			errorLog?.(error.join('\n'))
-			reject(error.join('\n'))
+			reject(new Error(error.join('\n').trim()))
 		})
 	})
