@@ -6,7 +6,7 @@ describe('runCmd', () => {
 	})
 	it('should handle errors', async () =>
 		expect(runCmd({ cmd: 'ls /foo/bar' })).rejects.toThrow(
-			"ls: cannot access '/foo/bar': No such file or directory",
+			/No such file or directory/
 		))
 	it('should time out', async () =>
 		expect(runCmd({ cmd: 'sleep 10', timeoutInSeconds: 1 })).rejects.toThrow(
