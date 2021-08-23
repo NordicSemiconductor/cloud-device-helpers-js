@@ -1,3 +1,6 @@
+import { getModemFirmware } from './getModemFirmware'
+import * as semver from 'semver'
+
 const keygenResRx = /%KEYGEN: "([^"]+)"/
 
 /**
@@ -16,6 +19,12 @@ export const createPrivateKeyAndCSR = async ({
 	at: (cmd: string) => Promise<string[]>
 	secTag: number
 }): Promise<Buffer> => {
+	const mfw = await getModemFirmware({ at })
+	if (semver.satisfies(mfw, '>=1.3.0')) {
+		throw new Error(
+			`Please update your modem firwmare to at least version 1.3.0. Got ${mfw}.`,
+		)
+	}
 	// Turn off modem
 	await at('AT+CFUN=4')
 	// Delete existing private key
