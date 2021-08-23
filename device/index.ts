@@ -1,4 +1,5 @@
 export * from './atCMD'
 export * from './connect'
 export * from './flashCertificate'
+export * from './createPrivateKeyAndCSR'
 export * from './flash'
