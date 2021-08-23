@@ -1,5 +1,6 @@
 import { getModemFirmware } from './getModemFirmware'
 import * as semver from 'semver'
+import { getIMEI } from './getIMEI'
 
 const keygenResRx = /%KEYGEN: "([^"]+)"/
 
@@ -15,11 +16,13 @@ const keygenResRx = /%KEYGEN: "([^"]+)"/
 export const createPrivateKeyAndCSR = async ({
 	at,
 	secTag,
+	attributes,
 	expectedMfwVersion,
 }: {
 	at: (cmd: string) => Promise<string[]>
 	secTag: number
 	expectedMfwVersion?: string
+	attributes?: (_: { imei: string }) => string
 }): Promise<Buffer> => {
 	const mfw = await getModemFirmware({ at })
 	if (!semver.satisfies(mfw, expectedMfwVersion ?? '>=1.3.0')) {
@@ -27,12 +30,17 @@ export const createPrivateKeyAndCSR = async ({
 			`Please update your modem firwmare to at least version 1.3.0. Got ${mfw}.`,
 		)
 	}
+	const imei = await getIMEI({ at })
 	// Turn off modem
 	await at('AT+CFUN=4')
 	// Delete existing private key
 	await at(`AT%CMNG=3,${secTag},2`)
 	// Generate the new key
-	const res = await at(`AT%KEYGEN=${secTag},2,0`)
+	const res = await at(
+		`AT%KEYGEN=${secTag},2,0,"${
+			attributes?.({ imei }) ?? 'CN=${imei}'
+		}","101010000"`,
+	)
 	if (!keygenResRx.test(res[0])) {
 		throw new Error(`Unexpected response: ${res}`)
 	}
