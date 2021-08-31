@@ -25,6 +25,7 @@ export const connect = async ({
 	warn,
 	port,
 	inactivityTimeoutInSeconds,
+	onEnd,
 }: {
 	device: string
 	atHostHexfile: string
@@ -34,11 +35,11 @@ export const connect = async ({
 	warn?: (...args: string[]) => void
 	port?: SerialPort
 	inactivityTimeoutInSeconds?: number
+	onEnd?: (port: SerialPort, timeout: boolean) => void
 }): Promise<{
 	connection: Connection
 	deviceLog: string[]
 	onData: (fn: (s: string) => void) => void
-	onEnd: (fn: (port: SerialPort, timeout: boolean) => void) => void
 }> =>
 	new Promise((resolve, reject) => {
 		const deviceLog: string[] = []
@@ -46,7 +47,6 @@ export const connect = async ({
 			inactivityTimeoutInSeconds ?? defaultInactivityTimeoutInSeconds
 		progress?.(`Connecting to`, device)
 		progress?.(`Inactivity timeout`, `${timeoutSeconds} seconds`)
-		let onEnd: (port: SerialPort, timeout: boolean) => void
 		const portInstance =
 			port ??
 			new SerialPort(device, {
@@ -114,9 +114,6 @@ export const connect = async ({
 					deviceLog,
 					onData: (fn) => {
 						listeners.push(fn)
-					},
-					onEnd: (fn) => {
-						onEnd = fn
 					},
 				})
 			}
