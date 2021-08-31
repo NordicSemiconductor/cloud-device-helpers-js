@@ -37,22 +37,22 @@
   "devDependencies": {
     "@commitlint/cli": "13.1.0",
     "@commitlint/config-angular": "13.1.0",
-    "@nordicsemiconductor/asset-tracker-cloud-code-style": "9.0.4",
-    "@nordicsemiconductor/eslint-config-asset-tracker-cloud-typescript": "8.0.7",
+    "@nordicsemiconductor/asset-tracker-cloud-code-style": "9.1.0",
+    "@nordicsemiconductor/eslint-config-asset-tracker-cloud-typescript": "8.1.1",
     "@types/jest": "27.0.1",
-    "@types/node": "16.7.1",
+    "@types/node": "16.7.8",
     "@types/semver": "7.3.8",
     "@types/serialport": "8.0.2",
     "@types/shell-quote": "1.7.1",
     "@types/uuid": "8.3.1",
     "eslint": "7.32.0",
-    "husky": "7.0.1",
-    "jest": "27.0.6",
+    "husky": "7.0.2",
+    "jest": "27.1.0",
     "lint-staged": "11.1.2",
     "pinst": "2.1.6",
     "prettier": "2.3.2",
     "ts-jest": "27.0.5",
-    "typescript": "4.3.5"
+    "typescript": "4.4.2"
   },
   "lint-staged": {
     "*.{md,json,yaml,yml}": [
