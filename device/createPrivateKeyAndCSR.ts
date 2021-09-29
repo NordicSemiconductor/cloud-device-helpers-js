@@ -38,7 +38,7 @@ export const createPrivateKeyAndCSR = async ({
 	// Generate the new key
 	const res = await at(
 		`AT%KEYGEN=${secTag},2,0,"${
-			attributes?.({ imei }) ?? 'CN=${imei}'
+			attributes?.({ imei }) ?? `CN=${imei}`
 		}","101010000"`,
 	)
 	if (!keygenResRx.test(res[0])) {
