@@ -1,6 +1,7 @@
 import { getModemFirmware } from './getModemFirmware'
 import * as semver from 'semver'
 import { getIMEI } from './getIMEI'
+import { verifyKeygenResult } from './verifyKeygenResult'
 
 const keygenResRx = /%KEYGEN: "([^"]+)"/
 
@@ -41,12 +42,21 @@ export const createPrivateKeyAndCSR = async ({
 			attributes?.({ imei }) ?? `CN=${imei}`
 		}","101010000"`,
 	)
+	// Turn on modem
+	await at('AT+CFUN=1')
+
 	if (!keygenResRx.test(res[0])) {
 		throw new Error(`Unexpected response: ${res}`)
 	}
-	const [csrBase64] = keygenResRx.exec(res[0])?.[1].split('.') ?? []
+
+	const cose = keygenResRx.exec(res[0])?.[1] ?? ''
+	const { verified, error } = verifyKeygenResult(cose)
+	if (!verified) {
+		throw new Error(`Device returned an invalid CSR: ${error}!`)
+	}
+
+	const [csrBase64] = cose.split('.') ?? []
 	const csr = Buffer.from(csrBase64, 'base64url')
-	// Turn on modem
-	await at('AT+CFUN=1')
+
 	return csr
 }
