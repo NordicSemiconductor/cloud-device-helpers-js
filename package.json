@@ -32,11 +32,11 @@
     "chalk": "4.1.2",
     "semver": "7.3.5",
     "serialport": "9.2.7",
-    "shell-quote": "*",
+    "shell-quote": "1.7.3",
     "uuid": "8.3.2"
   },
   "devDependencies": {
-    "@nordicsemiconductor/asset-tracker-cloud-code-style": "9.2.21",
+    "@nordicsemiconductor/asset-tracker-cloud-code-style": "9.2.22",
     "@types/jest": "27.0.3",
     "@types/node": "16.11.9",
     "@types/semver": "7.3.9",
