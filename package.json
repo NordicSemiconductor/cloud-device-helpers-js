@@ -2,6 +2,7 @@
   "name": "@nordicsemiconductor/firmware-ci-device-helpers",
   "version": "0.0.0-development",
   "description": "Helper functions for interacting with the nRF9160 used during end-to-end tests",
+  "type": "module",
   "main": "./dist/export.js",
   "scripts": {
     "test": "jest",
@@ -97,5 +98,6 @@
         "diagnostics": true
       }
     }
-  }
+  },
+  "prettier": "@nordicsemiconductor/asset-tracker-cloud-code-style/.prettierrc"
 }
