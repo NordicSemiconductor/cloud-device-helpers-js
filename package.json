@@ -2,7 +2,6 @@
   "name": "@nordicsemiconductor/firmware-ci-device-helpers",
   "version": "0.0.0-development",
   "description": "Helper functions for interacting with the nRF9160 used during end-to-end tests",
-  "type": "module",
   "main": "./dist/export.js",
   "scripts": {
     "test": "jest",
@@ -30,7 +29,7 @@
   "dependencies": {
     "@serialport/parser-readline": "9.2.4",
     "cbor": "8.1.0",
-    "chalk": "5.0.0",
+    "chalk": "4.1.2",
     "semver": "7.3.5",
     "serialport": "9.2.8",
     "shell-quote": "1.7.3",
@@ -98,6 +97,5 @@
         "diagnostics": true
       }
     }
-  },
-  "prettier": "@nordicsemiconductor/asset-tracker-cloud-code-style/.prettierrc"
+  }
 }

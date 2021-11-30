@@ -1,4 +1,4 @@
-import chalk from 'chalk'
+import * as chalk from 'chalk'
 
 const notEmpty = (s?: any) => s !== undefined
 
