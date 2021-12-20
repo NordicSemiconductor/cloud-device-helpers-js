@@ -19,11 +19,16 @@ export const createPrivateKeyAndCSR = async ({
 	secTag,
 	attributes,
 	expectedMfwVersion,
+	deletePrivateKey,
 }: {
 	at: (cmd: string) => Promise<string[]>
 	secTag: number
 	expectedMfwVersion?: string
 	attributes?: (_: { imei: string }) => string
+	/**
+	 * If the device already has a key stored with the same secTag, it needs to be deleted first.
+	 */
+	deletePrivateKey: boolean
 }): Promise<Buffer> => {
 	const mfw = await getModemFirmware({ at })
 	if (!semver.satisfies(mfw, expectedMfwVersion ?? '>=1.3.0')) {
@@ -35,7 +40,7 @@ export const createPrivateKeyAndCSR = async ({
 	// Turn off modem
 	await at('AT+CFUN=4')
 	// Delete existing private key
-	await at(`AT%CMNG=3,${secTag},2`)
+	if (deletePrivateKey ?? false) await at(`AT%CMNG=3,${secTag},2`)
 	// Generate the new key
 	const res = await at(
 		`AT%KEYGEN=${secTag},2,0,"${
