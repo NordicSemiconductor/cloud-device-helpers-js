@@ -20,8 +20,8 @@ jobs:
 
       - name: Fetch latest AT host
         run: |
-          wget https://nordicsemiconductor.github.io/at_host-hex/at_host-thingy91_nrf9160ns.hex -O at_host/thingy91_at_host_increased_buf.hex
-          wget https://nordicsemiconductor.github.io/at_host-hex/at_host-nrf9160dk_nrf9160ns.hex -O at_host/91dk_at_host_increased_buf.hex
+          wget https://nordicsemiconductor.github.io/at_host-hex/at_host-thingy91_nrf9160_ns.hex -O at_host/thingy91_at_host_increased_buf.hex
+          wget https://nordicsemiconductor.github.io/at_host-hex/at_host-nrf9160dk_nrf9160_ns.hex -O at_host/91dk_at_host_increased_buf.hex
           if [[ `git status --porcelain` ]]; then
             echo "HAS_CHANGES=1" >> $GITHUB_ENV
             git status

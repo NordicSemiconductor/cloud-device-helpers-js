@@ -28,31 +28,31 @@ describe('anySeen', () => {
 	})
 	describe('should handle multiple abort criteria', () => {
 		const abortOn = anySeen([
-			`Version:     0.0.0-development-nrf9160dk_nrf9160ns-ltem-e36b3589-9b2b-4fb4-87b2-2aaf9d792d76-upgraded`,
-			`"appV": "0.0.0-development-nrf9160dk_nrf9160ns-ltem-e36b3589-9b2b-4fb4-87b2-2aaf9d792d76-upgraded"`,
+			`Version:     0.0.0-development-nrf9160dk_nrf9160_ns-ltem-e36b3589-9b2b-4fb4-87b2-2aaf9d792d76-upgraded`,
+			`"appV": "0.0.0-development-nrf9160dk_nrf9160_ns-ltem-e36b3589-9b2b-4fb4-87b2-2aaf9d792d76-upgraded"`,
 			'MQTT_EVT_SUBACK',
 		])
 		it('should abort if any abortion criterion has been seen', () => {
 			expect(
 				abortOn(
-					`Version:     0.0.0-development-nrf9160dk_nrf9160ns-ltem-e36b3589-9b2b-4fb4-87b2-2aaf9d792d76-upgraded`,
+					`Version:     0.0.0-development-nrf9160dk_nrf9160_ns-ltem-e36b3589-9b2b-4fb4-87b2-2aaf9d792d76-upgraded`,
 				),
 			).toEqual(true)
 			expect(
 				abortOn(
-					`"appV": "0.0.0-development-nrf9160dk_nrf9160ns-ltem-e36b3589-9b2b-4fb4-87b2-2aaf9d792d76-upgraded"`,
+					`"appV": "0.0.0-development-nrf9160dk_nrf9160_ns-ltem-e36b3589-9b2b-4fb4-87b2-2aaf9d792d76-upgraded"`,
 				),
 			).toEqual(true)
 			expect(abortOn('MQTT_EVT_SUBACK')).toEqual(true)
 		})
 	})
 	describe('multiple matches per line', () => {
-		const l = `"appV": "134387f674ba67e13c986f4f46c09f6f959d996e-nrf9160dk_nrf9160ns-ltem-4de5e5e5-403e-480b-b6dd-2320387b44f4-upgraded"`
+		const l = `"appV": "134387f674ba67e13c986f4f46c09f6f959d996e-nrf9160dk_nrf9160_ns-ltem-4de5e5e5-403e-480b-b6dd-2320387b44f4-upgraded"`
 
 		it('should support multiple matches per line', () => {
 			const abortOn = anySeen([
 				'appV',
-				`134387f674ba67e13c986f4f46c09f6f959d996e-nrf9160dk_nrf9160ns-ltem-4de5e5e5-403e-480b-b6dd-2320387b44f4-upgraded`,
+				`134387f674ba67e13c986f4f46c09f6f959d996e-nrf9160dk_nrf9160_ns-ltem-4de5e5e5-403e-480b-b6dd-2320387b44f4-upgraded`,
 				`cloud_module.data_send: Data sent`,
 			])
 			expect(abortOn(l)).toEqual(true)

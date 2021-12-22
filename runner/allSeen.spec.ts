@@ -28,19 +28,19 @@ describe('allSeen', () => {
 	})
 	describe('should handle multiple abort criteria on order', () => {
 		const abortOn = allSeen([
-			`Version:     0.0.0-development-nrf9160dk_nrf9160ns-ltem-e36b3589-9b2b-4fb4-87b2-2aaf9d792d76-upgraded`,
-			`"appV": "0.0.0-development-nrf9160dk_nrf9160ns-ltem-e36b3589-9b2b-4fb4-87b2-2aaf9d792d76-upgraded"`,
+			`Version:     0.0.0-development-nrf9160dk_nrf9160_ns-ltem-e36b3589-9b2b-4fb4-87b2-2aaf9d792d76-upgraded`,
+			`"appV": "0.0.0-development-nrf9160dk_nrf9160_ns-ltem-e36b3589-9b2b-4fb4-87b2-2aaf9d792d76-upgraded"`,
 			'MQTT_EVT_SUBACK',
 		])
 		it('should not abort until the last criteria was seen', () => {
 			expect(
 				abortOn(
-					`Version:     0.0.0-development-nrf9160dk_nrf9160ns-ltem-e36b3589-9b2b-4fb4-87b2-2aaf9d792d76-upgraded`,
+					`Version:     0.0.0-development-nrf9160dk_nrf9160_ns-ltem-e36b3589-9b2b-4fb4-87b2-2aaf9d792d76-upgraded`,
 				),
 			).toEqual(false)
 			expect(
 				abortOn(
-					`"appV": "0.0.0-development-nrf9160dk_nrf9160ns-ltem-e36b3589-9b2b-4fb4-87b2-2aaf9d792d76-upgraded"`,
+					`"appV": "0.0.0-development-nrf9160dk_nrf9160_ns-ltem-e36b3589-9b2b-4fb4-87b2-2aaf9d792d76-upgraded"`,
 				),
 			).toEqual(false)
 			expect(abortOn('MQTT_EVT_SUBACK')).toEqual(true)
@@ -48,25 +48,25 @@ describe('allSeen', () => {
 		it('should honor the required order', () => {
 			expect(
 				abortOn(
-					`Version:     0.0.0-development-nrf9160dk_nrf9160ns-ltem-e36b3589-9b2b-4fb4-87b2-2aaf9d792d76-upgraded`,
+					`Version:     0.0.0-development-nrf9160dk_nrf9160_ns-ltem-e36b3589-9b2b-4fb4-87b2-2aaf9d792d76-upgraded`,
 				),
 			).toEqual(false)
 			expect(abortOn('MQTT_EVT_SUBACK')).toEqual(false)
 			expect(
 				abortOn(
-					`"appV": "0.0.0-development-nrf9160dk_nrf9160ns-ltem-e36b3589-9b2b-4fb4-87b2-2aaf9d792d76-upgraded"`,
+					`"appV": "0.0.0-development-nrf9160dk_nrf9160_ns-ltem-e36b3589-9b2b-4fb4-87b2-2aaf9d792d76-upgraded"`,
 				),
 			).toEqual(false)
 			expect(abortOn('MQTT_EVT_SUBACK')).toEqual(true)
 		})
 	})
 	describe('multiple matches per line', () => {
-		const l = `"appV": "134387f674ba67e13c986f4f46c09f6f959d996e-nrf9160dk_nrf9160ns-ltem-4de5e5e5-403e-480b-b6dd-2320387b44f4-upgraded"`
+		const l = `"appV": "134387f674ba67e13c986f4f46c09f6f959d996e-nrf9160dk_nrf9160_ns-ltem-4de5e5e5-403e-480b-b6dd-2320387b44f4-upgraded"`
 
 		it('should support multiple matches per line', () => {
 			const abortOn = allSeen([
 				'appV',
-				`134387f674ba67e13c986f4f46c09f6f959d996e-nrf9160dk_nrf9160ns-ltem-4de5e5e5-403e-480b-b6dd-2320387b44f4-upgraded`,
+				`134387f674ba67e13c986f4f46c09f6f959d996e-nrf9160dk_nrf9160_ns-ltem-4de5e5e5-403e-480b-b6dd-2320387b44f4-upgraded`,
 				`cloud_module.data_send: Data sent`,
 			])
 			expect(abortOn(l)).toEqual(false)
@@ -75,7 +75,7 @@ describe('allSeen', () => {
 		})
 		it('should honor the order', () => {
 			const abortOn = allSeen([
-				`134387f674ba67e13c986f4f46c09f6f959d996e-nrf9160dk_nrf9160ns-ltem-4de5e5e5-403e-480b-b6dd-2320387b44f4-upgraded`,
+				`134387f674ba67e13c986f4f46c09f6f959d996e-nrf9160dk_nrf9160_ns-ltem-4de5e5e5-403e-480b-b6dd-2320387b44f4-upgraded`,
 				'appV',
 				`cloud_module.data_send: Data sent`,
 			])
