@@ -26,4 +26,4 @@ Firmware CI runners.
 
 ## Installation
 
-    npm i --save @nordicsemiconductor/firmware-ci-device-helpers
+    npm i --save --save-exact @nordicsemiconductor/firmware-ci-device-helpers
