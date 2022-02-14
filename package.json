@@ -27,7 +27,7 @@
   },
   "homepage": "https://github.com/NordicSemiconductor/cloud-firmware-ci-device-helpers-js#readme",
   "dependencies": {
-    "@serialport/parser-readline": "9.2.4",
+    "@serialport/parser-readline": "10.3.0",
     "cbor": "8.1.0",
     "chalk": "4.1.2",
     "semver": "7.3.5",
