@@ -1,5 +1,5 @@
-import * as SerialPort from 'serialport'
 import * as Readline from '@serialport/parser-readline'
+import { SerialPort } from 'serialport'
 import { atCMD } from './atCMD'
 import { flash } from './flash'
 
@@ -49,7 +49,8 @@ export const connect = async ({
 		progress?.(`Inactivity timeout`, `${timeoutSeconds} seconds`)
 		const portInstance =
 			port ??
-			new SerialPort(device, {
+			new SerialPort({
+				path: device,
 				baudRate: 115200,
 				autoOpen: true,
 				dataBits: 8,
