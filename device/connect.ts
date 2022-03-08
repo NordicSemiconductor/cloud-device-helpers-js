@@ -1,4 +1,4 @@
-import * as Readline from '@serialport/parser-readline'
+import { Readline } from '@serialport/parser-readline'
 import { SerialPort } from 'serialport'
 import { atCMD } from './atCMD'
 import { flash } from './flash'
