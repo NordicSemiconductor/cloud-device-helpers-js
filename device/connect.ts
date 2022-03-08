@@ -1,4 +1,4 @@
-import { Readline } from '@serialport/parser-readline'
+import { ReadlineParser } from '@serialport/parser-readline'
 import { SerialPort } from 'serialport'
 import { atCMD } from './atCMD'
 import { flash } from './flash'
@@ -60,7 +60,7 @@ export const connect = async ({
 				rtscts: false,
 			})
 		const parser = portInstance.pipe(
-			new Readline({ delimiter: delimiter ?? '\r\n' }),
+			new ReadlineParser({ delimiter: delimiter ?? '\r\n' }),
 		)
 		const at = atCMD({
 			device,
