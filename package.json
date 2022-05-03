@@ -37,14 +37,14 @@
   },
   "devDependencies": {
     "@nordicsemiconductor/asset-tracker-cloud-code-style": "11.0.61",
+    "@swc/jest": "0.2.20",
     "@types/jest": "27.5.0",
     "@types/node": "17.0.1",
     "@types/semver": "7.3.9",
     "@types/serialport": "8.0.2",
     "@types/shell-quote": "1.7.1",
     "@types/uuid": "8.3.4",
-    "jest": "28.0.3",
-    "ts-jest": "27.1.4"
+    "jest": "28.0.3"
   },
   "lint-staged": {
     "*.{md,json,yaml,yml}": [
@@ -89,13 +89,10 @@
       "json"
     ],
     "transform": {
-      ".+\\.tsx?$": "ts-jest"
+      "^.+\\.(t|j)sx?$": [
+        "@swc/jest"
+      ]
     },
-    "testRegex": ".+\\.spec\\.ts$",
-    "globals": {
-      "ts-jest": {
-        "diagnostics": true
-      }
-    }
+    "testRegex": ".+\\.spec\\.ts$"
   }
 }
