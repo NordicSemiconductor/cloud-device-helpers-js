@@ -44,7 +44,7 @@
     "@types/serialport": "8.0.2",
     "@types/shell-quote": "1.7.1",
     "@types/uuid": "8.3.4",
-    "jest": "28.1.0"
+    "jest": "28.1.1"
   },
   "lint-staged": {
     "*.{md,json,yaml,yml}": [
