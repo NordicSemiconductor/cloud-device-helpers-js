@@ -45,7 +45,7 @@ export const download = async ({
 				resolve(target)
 			} else {
 				warnLog?.('Failed to download', fw)
-				reject()
+				reject(new Error(`Failed to download ${fw}!`))
 			}
 		})
 	})
