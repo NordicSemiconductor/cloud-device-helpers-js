@@ -1,7 +1,7 @@
-import { promises as fs } from 'fs'
 import { spawn } from 'child_process'
-import * as path from 'path'
+import { promises as fs } from 'fs'
 import * as os from 'os'
+import * as path from 'path'
 import { v4 } from 'uuid'
 
 const seggerFlashScript = (fwFile: string) => `h 
@@ -77,7 +77,7 @@ export const flash = async ({
 			clearTimeout(t)
 			if (log.join('\n').includes('Failed to open file.')) {
 				warn?.(`Failed to open file: ${hexfile}`)
-				return reject()
+				return reject(new Error(`Failed to open file: ${hexfile}!`))
 			}
 			if (log.join('\n').includes('Script processing completed.')) {
 				resolve(log)
