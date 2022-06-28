@@ -1,5 +1,5 @@
-import * as path from 'path'
 import { realpathSync } from 'fs'
+import * as path from 'path'
 
 export const atHostHexfile = {
 	thingy91: path.join(

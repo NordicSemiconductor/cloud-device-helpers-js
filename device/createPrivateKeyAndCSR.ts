@@ -1,6 +1,6 @@
-import { getModemFirmware } from './getModemFirmware'
 import * as semver from 'semver'
 import { getIMEI } from './getIMEI'
+import { getModemFirmware } from './getModemFirmware'
 import { verifyKeygenResult } from './verifyKeygenResult'
 
 const keygenResRx = /%KEYGEN: "([^"]+)"/
