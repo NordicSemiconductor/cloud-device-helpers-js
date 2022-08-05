@@ -62,7 +62,7 @@ export const connect = async ({
 		const parser = portInstance.pipe(
 			new ReadlineParser({ delimiter: delimiter ?? '\r\n' }),
 		)
-		const at = atCMD({
+		const connectionHandler = atCMD({
 			device,
 			port: portInstance,
 			parser,
@@ -72,11 +72,25 @@ export const connect = async ({
 				progress?.(device, ...args)
 			},
 		})
+
 		let inactivityTimer: NodeJS.Timeout
+		const startTimer = () => {
+			inactivityTimer = setTimeout(onInactive, timeoutSeconds * 1000)
+		}
+
+		const stopTimer = () => {
+			if (inactivityTimer !== undefined) clearTimeout(inactivityTimer)
+		}
+
+		const resetTimer = () => {
+			stopTimer()
+			startTimer()
+		}
+
 		let ended = false
 		const end = async (timeout: boolean) => {
 			ended = true
-			if (inactivityTimer !== undefined) clearTimeout(inactivityTimer)
+			stopTimer()
 			onEnd?.(portInstance, timeout)
 			if (!portInstance.isOpen) {
 				warn?.(device, 'port is not open')
@@ -99,8 +113,14 @@ export const connect = async ({
 				debug: (...args: any[]) => debug?.('AT Host', ...args),
 				warn: (...args: any[]) => warn?.('AT Host', ...args),
 			})
-			inactivityTimer = setTimeout(onInactive, timeoutSeconds * 1000)
+			startTimer()
 		})
+
+		const at = async (cmd: string) => {
+			resetTimer()
+			return connectionHandler(cmd)
+		}
+
 		const listeners: ((s: string) => void)[] = []
 		parser.on('data', async (data: string) => {
 			debug?.(device, data)
@@ -118,8 +138,7 @@ export const connect = async ({
 					},
 				})
 			}
-			clearTimeout(inactivityTimer)
-			inactivityTimer = setTimeout(onInactive, timeoutSeconds * 1000)
+			resetTimer()
 		})
 		portInstance.on('close', () => {
 			if (ended) {
@@ -128,8 +147,10 @@ export const connect = async ({
 				warn?.(device, 'port closed unexpectedly')
 				onEnd?.(portInstance, false)
 			}
+			stopTimer()
 		})
 		portInstance.on('error', (err) => {
+			stopTimer()
 			warn?.(device, err.message)
 			reject(err)
 		})
