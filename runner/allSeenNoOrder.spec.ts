@@ -1,6 +1,7 @@
 import { readFileSync } from 'fs'
 import * as os from 'os'
 import * as path from 'path'
+import { allSeenNoOrder } from './allSeenNoOrder'
 
 const tokens = [
 	'CLOUD_WRAP_EVT_PGPS_DATA_RECEIVED',
@@ -39,33 +40,3 @@ describe('allSeenNoOrder()', () => {
 		expect(found).toBeUndefined()
 	})
 })
-
-/**
- * Find the tokens, ignoring the order
- */
-const allSeenNoOrder = (
-	matches: string[],
-	debug?: (...args: string[]) => void,
-) => {
-	const matchesFound: Record<string, boolean> = matches.reduce(
-		(map, line) => ({ ...map, [line]: false }),
-		{},
-	)
-	const allMatched = (): boolean =>
-		Object.values(matchesFound).reduce(
-			(allFound, found) => (found === true ? allFound : false),
-			true,
-		)
-	return (line: string): boolean => {
-		for (const needsMatch of matches) {
-			if (line.includes(needsMatch)) {
-				matchesFound[needsMatch] = true
-				debug?.(`Matched`, needsMatch, `in line`, line)
-			}
-			if (allMatched()) {
-				return true
-			}
-		}
-		return false
-	}
-}
