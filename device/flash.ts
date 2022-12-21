@@ -1,8 +1,8 @@
 import { spawn } from 'child_process'
 import { promises as fs } from 'fs'
+import { randomUUID } from 'node:crypto'
 import * as os from 'os'
 import * as path from 'path'
-import { v4 } from 'uuid'
 
 const seggerFlashScript = (fwFile: string) => `h 
 w4 4001e504 2
@@ -28,7 +28,7 @@ export const flash = async ({
 	warn?: (...args: string[]) => void
 	debug?: (...args: string[]) => void
 }): Promise<string[]> => {
-	const script = path.join(os.tmpdir(), `${v4()}.script`)
+	const script = path.join(os.tmpdir(), `${randomUUID()}.script`)
 	await fs.writeFile(script, seggerFlashScript(hexfile), 'utf-8')
 	debug?.(seggerFlashScript(hexfile))
 	return new Promise((resolve, reject) => {
