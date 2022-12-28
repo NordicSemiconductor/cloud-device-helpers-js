@@ -32,7 +32,7 @@
     "shell-quote": "1.7.4"
   },
   "devDependencies": {
-    "@nordicsemiconductor/asset-tracker-cloud-code-style": "11.0.160",
+    "@nordicsemiconductor/asset-tracker-cloud-code-style": "11.0.161",
     "@swc/jest": "0.2.24",
     "@types/jest": "29.2.4",
     "@types/node": "18.11.18",
