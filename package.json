@@ -29,7 +29,7 @@
     "cbor": "8.1.0",
     "semver": "7.3.8",
     "serialport": "10.5.0",
-    "shell-quote": "1.7.4"
+    "shell-quote": "1.8.0"
   },
   "devDependencies": {
     "@nordicsemiconductor/asset-tracker-cloud-code-style": "11.0.163",
