@@ -23,13 +23,13 @@ export const verifyKeygenResult = (
 	try {
 		const signedChecksum = decodeFirstSync(Buffer.from(parts[1], 'base64url'), {
 			tags: {
-				18: (v) => decodeFirstSync(v[2]).value[3].toString('hex'),
+				18: (v: any) => decodeFirstSync(v[2]).value[3].toString('hex'),
 			},
 		})
 		return {
 			verified: csrChecksum === signedChecksum,
 			checksum: csrChecksum,
-			signedChecksum: signedChecksum,
+			signedChecksum,
 		}
 	} catch (error: any) {
 		return {
