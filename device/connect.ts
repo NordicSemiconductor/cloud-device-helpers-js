@@ -1,7 +1,7 @@
 import { ReadlineParser } from '@serialport/parser-readline'
 import { SerialPort } from 'serialport'
-import { atCMD } from './atCMD'
-import { flash } from './flash'
+import { atCMD } from './atCMD.js'
+import { flash } from './flash.js'
 
 const defaultInactivityTimeoutInSeconds = 300
 
@@ -122,11 +122,15 @@ export const connect = async ({
 		}
 
 		const listeners: ((s: string) => void)[] = []
+		let bannerSeen = false
+		let ready = false
 		parser.on('data', async (data: string) => {
 			debug?.(device, data)
 			deviceLog.push(`${new Date().toISOString()}\t${data.trimEnd()}`)
 			listeners.map((l) => l(data))
-			if (data.includes('AT host sample started')) {
+			if (data.includes('AT host sample started')) bannerSeen = true
+			if (bannerSeen && data.includes('Ready')) ready = true
+			if (ready) {
 				resolve({
 					connection: {
 						at,
