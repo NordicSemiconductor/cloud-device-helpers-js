@@ -36,7 +36,7 @@
     "@swc/jest": "0.2.29",
     "@types/jest": "29.5.5",
     "@types/node": "20.6.5",
-    "@types/semver": "7.5.2",
+    "@types/semver": "7.5.3",
     "@types/serialport": "8.0.2",
     "@types/shell-quote": "1.7.1",
     "jest": "29.7.0"
