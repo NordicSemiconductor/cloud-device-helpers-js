@@ -1,4 +1,4 @@
-import { decodeFirstSync } from 'cbor'
+import cbor from 'cbor'
 import { createHash } from 'crypto'
 
 export const verifyKeygenResult = (
@@ -21,11 +21,14 @@ export const verifyKeygenResult = (
 		.digest('hex')
 
 	try {
-		const signedChecksum = decodeFirstSync(Buffer.from(parts[1], 'base64url'), {
-			tags: {
-				18: (v: any) => decodeFirstSync(v[2]).value[3].toString('hex'),
+		const signedChecksum = cbor.decodeFirstSync(
+			Buffer.from(parts[1], 'base64url'),
+			{
+				tags: {
+					18: (v: any) => cbor.decodeFirstSync(v[2]).value[3].toString('hex'),
+				},
 			},
-		})
+		)
 		return {
 			verified: csrChecksum === signedChecksum,
 			checksum: csrChecksum,

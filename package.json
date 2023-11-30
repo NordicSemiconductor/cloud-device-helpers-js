@@ -2,9 +2,14 @@
   "name": "@nordicsemiconductor/device-helpers",
   "version": "0.0.0-development",
   "description": "Helper functions for interacting with the nRF9160 used during end-to-end tests",
-  "main": "./dist/export.js",
+  "type": "module",
+  "typings": "dist/export.d.ts",
+  "exports": {
+    "import": "./dist/export.js",
+    "node": "./dist/export.js"
+  },
   "scripts": {
-    "test": "jest",
+    "test": "npx tsx --test ./device/*.spec.ts",
     "start": "node --unhandled-rejections=strict dist/runner/runner.js",
     "prepare": "husky install"
   },
@@ -34,13 +39,17 @@
   "devDependencies": {
     "@commitlint/config-conventional": "18.4.3",
     "@nordicsemiconductor/asset-tracker-cloud-code-style": "13.0.0",
-    "@swc/jest": "0.2.29",
-    "@types/jest": "29.5.10",
+    "@nordicsemiconductor/eslint-config-asset-tracker-cloud-typescript": "17.0.0",
     "@types/node": "20.10.1",
     "@types/semver": "7.5.6",
     "@types/serialport": "8.0.5",
     "@types/shell-quote": "1.7.5",
-    "jest": "29.7.0"
+    "@typescript-eslint/eslint-plugin": "6.13.1",
+    "eslint-config-prettier": "9.0.0",
+    "eslint-plugin-import": "2.29.0",
+    "eslint-plugin-prefer-arrow": "1.2.3",
+    "eslint-plugin-unicorn": "49.0.0",
+    "tsx": "4.6.1"
   },
   "lint-staged": {
     "*.{md,json,yaml,yml}": [
@@ -88,18 +97,5 @@
     "LICENSE",
     "README.md"
   ],
-  "jest": {
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "json"
-    ],
-    "transform": {
-      "^.+\\.(t|j)sx?$": [
-        "@swc/jest"
-      ]
-    },
-    "testRegex": ".+\\.spec\\.ts$"
-  }
+  "prettier": "@nordicsemiconductor/asset-tracker-cloud-code-style/.prettierrc"
 }

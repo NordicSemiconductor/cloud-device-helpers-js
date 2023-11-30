@@ -1,7 +1,7 @@
 import * as semver from 'semver'
-import { getIMEI } from './getIMEI'
-import { getModemFirmware } from './getModemFirmware'
-import { verifyKeygenResult } from './verifyKeygenResult'
+import { getIMEI } from './getIMEI.js'
+import { getModemFirmware } from './getModemFirmware.js'
+import { verifyKeygenResult } from './verifyKeygenResult.js'
 
 const keygenResRx = /%KEYGEN: "([^"]+)"/
 
