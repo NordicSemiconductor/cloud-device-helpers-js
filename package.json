@@ -32,6 +32,7 @@
     "shell-quote": "1.8.1"
   },
   "devDependencies": {
+    "@commitlint/config-conventional": "18.4.3",
     "@nordicsemiconductor/asset-tracker-cloud-code-style": "13.0.0",
     "@swc/jest": "0.2.29",
     "@types/jest": "29.5.10",
