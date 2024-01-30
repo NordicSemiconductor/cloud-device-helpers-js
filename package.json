@@ -11,7 +11,7 @@
   "scripts": {
     "test": "npx tsx --test ./device/*.spec.ts",
     "start": "node --unhandled-rejections=strict dist/runner/runner.js",
-    "prepare": "husky install"
+    "prepare": "husky"
   },
   "repository": {
     "type": "git",
@@ -49,6 +49,7 @@
     "eslint-plugin-import": "2.29.1",
     "eslint-plugin-prefer-arrow": "1.2.3",
     "eslint-plugin-unicorn": "50.0.1",
+    "husky": "9.0.7",
     "tsx": "4.7.0"
   },
   "lint-staged": {
