@@ -51,7 +51,7 @@ export const createPrivateKeyAndCSR = async ({
 	await at('AT+CFUN=1')
 
 	if (!keygenResRx.test(res[0])) {
-		throw new Error(`Unexpected response: ${res}`)
+		throw new Error(`Unexpected response: ${JSON.stringify(res)}`)
 	}
 
 	const cose = keygenResRx.exec(res[0])?.[1] ?? ''
