@@ -86,7 +86,6 @@
     "access": "public"
   },
   "files": [
-    "package-lock.json",
     "dist",
     "at_host",
     "cli/index.js",
