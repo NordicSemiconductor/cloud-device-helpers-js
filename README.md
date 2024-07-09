@@ -1,3 +1,7 @@
+> [!NOTE]  
+>
+> This repository has been archived, because [it is considered feature-complete](https://github.com/NordicSemiconductor/asset-tracker-cloud-docs/discussions/1068). ✔️ 
+
 # Device helpers [![npm version](https://img.shields.io/npm/v/@nordicsemiconductor/device-helpers.svg)](https://www.npmjs.com/package/@nordicsemiconductor/device-helpers)
 
 [![GitHub Actions](https://github.com/NordicSemiconductor/cloud-device-helpers-js/workflows/Test%20and%20Release/badge.svg)](https://github.com/NordicSemiconductor/cloud-device-helpers-js/actions)
